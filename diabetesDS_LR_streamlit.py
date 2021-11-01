@@ -31,7 +31,7 @@ dpdwn = st.sidebar.selectbox("",[
                                 "Model Evaluation",
                                 "Correlation Heatmap",
                                 "Basic DataSet Visualizations",
-                                "Logistic Regression Plots",
+                                "Logistic Regression Plot",
                                 ])
 
 
@@ -85,7 +85,7 @@ y = df["Outcome"]
 X = df.drop("Outcome", axis=1)
 
 # # Modeling
-# X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.70, random_state=0)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.70, random_state=0)
 # regressor = LogisticRegression()
 # regressor.fit(X_train,y_train)
 # # Pickling trained model for later use
@@ -107,11 +107,11 @@ print("Intercept (expected mean value of Outcome when all variables are 0): ", i
 
 
 # Visualizing Regression Model
-fig1 = sns.lmplot(x="DiabetesPedigreeFunction", y="Outcome", data=df, logistic=True, y_jitter=.03)
+fig1 = sns.lmplot(x="Glucose", y="Outcome", data=df, logistic=True, y_jitter=.03)
 # fig2 = sns.lmplot(x="Age", y="Outcome", data=df, logistic=True, y_jitter=.03)
 # fig3 = sns.lmplot(x="Pregnancies", y="Outcome", data=df, logistic=True, y_jitter=.03)
 # fig4 = sns.lmplot(x="BMI", y="Outcome", data=df, logistic=True, y_jitter=.03)
-# fig5 = sns.lmplot(x="Glucose", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig5 = sns.lmplot(x="DiabetesPedigreeFunction", y="Outcome", data=df, logistic=True, y_jitter=.03)
 # fig6 = sns.lmplot(x="Insulin", y="Outcome", data=df, logistic=True, y_jitter=.03)
 # fig7 = sns.lmplot(x="BloodPressure", y="Outcome", data=df, logistic=True, y_jitter=.03)
 
@@ -176,8 +176,8 @@ print(clasf_report)
 
 
 
-if dpdwn == "Logistic Regression Plots":
-    st.subheader("Logistic Regression Plots for all Independent Variables")
+if dpdwn == "Logistic Regression Plot":
+    st.subheader("Logistic Regression Plot with Glucose as Independent Variables")
     st.pyplot(fig1)
     # st.pyplot(fig2)
     # st.pyplot(fig3)
