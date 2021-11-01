@@ -19,8 +19,8 @@ import plotly_express as px
 # import plotly.graph_objs as go
 # import plotly.subplots as sp
 import streamlit as st
-import plotly.io as pio
-pio.renderers.default='browser'
+# import plotly.io as pio
+# pio.renderers.default='browser'
 # %matplotlib inline
 
 
