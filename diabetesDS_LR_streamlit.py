@@ -84,10 +84,14 @@ df.drop_duplicates()
 y = df["Outcome"]
 X = df.drop("Outcome", axis=1)
 
-# Modeling
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.70, random_state=0)
-regressor = LogisticRegression()
-regressor.fit(X_train,y_train)
+# # Modeling
+# X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.70, random_state=0)
+# regressor = LogisticRegression()
+# regressor.fit(X_train,y_train)
+# # Pickling trained model for later use
+# pickle.dump(regressor,open('model.pkl','wb'))
+
+regressor = pickle.load(open('model.pkl','rb'))
 
 # Model parameters
 intercept = regressor.intercept_
@@ -104,12 +108,12 @@ print("Intercept (expected mean value of Outcome when all variables are 0): ", i
 
 # Visualizing Regression Model
 fig1 = sns.lmplot(x="DiabetesPedigreeFunction", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig2 = sns.lmplot(x="Age", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig3 = sns.lmplot(x="Pregnancies", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig4 = sns.lmplot(x="BMI", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig5 = sns.lmplot(x="Glucose", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig6 = sns.lmplot(x="Insulin", y="Outcome", data=df, logistic=True, y_jitter=.03)
-fig7 = sns.lmplot(x="BloodPressure", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig2 = sns.lmplot(x="Age", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig3 = sns.lmplot(x="Pregnancies", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig4 = sns.lmplot(x="BMI", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig5 = sns.lmplot(x="Glucose", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig6 = sns.lmplot(x="Insulin", y="Outcome", data=df, logistic=True, y_jitter=.03)
+# fig7 = sns.lmplot(x="BloodPressure", y="Outcome", data=df, logistic=True, y_jitter=.03)
 
 # Correlation
 corr = df.corr()
@@ -143,10 +147,6 @@ cmtx = pd.DataFrame(
 print("confusion matrix: ", conf)
 print(cmtx)
 
-# Pickling trained model for later use
-pickle.dump(regressor,open('model.pkl','wb'))
-# model = pickle.load(open('model.pkl','rb'))
-
 TP = conf[0][0]
 FP = conf[0][1]
 FN = conf[1][0]
@@ -162,16 +162,16 @@ clasf_report = classification_report(y_test, y_pred)
 print(clasf_report)
 
 
-coeff = list(regressor.coef_[0])
-labels = list(X.columns)
-features = pd.DataFrame()
-features['Features'] = labels
-features['importance'] = coeff
-features.sort_values(by=['importance'], ascending=True, inplace=True)
-features['positive'] = features['importance'] > 0
-features.set_index('Features', inplace=True)
-#features.importance.plot(kind='barh', figsize=(11, 6),color = features.positive.map({True: 'blue', False: 'red'}))
-#plt.xlabel('Importance')
+# coeff = list(regressor.coef_[0])
+# labels = list(X.columns)
+# features = pd.DataFrame()
+# features['Features'] = labels
+# features['importance'] = coeff
+# features.sort_values(by=['importance'], ascending=True, inplace=True)
+# features['positive'] = features['importance'] > 0
+# features.set_index('Features', inplace=True)
+# features.importance.plot(kind='barh', figsize=(11, 6),color = features.positive.map({True: 'blue', False: 'red'}))
+# plt.xlabel('Importance')
 # figure4 = px.histogram(features, x="importance", y=features.index, color = features.positive.map({True: 'blue', False: 'red'}))
 
 
@@ -179,12 +179,12 @@ features.set_index('Features', inplace=True)
 if dpdwn == "Logistic Regression Plots":
     st.subheader("Logistic Regression Plots for all Independent Variables")
     st.pyplot(fig1)
-    st.pyplot(fig2)
-    st.pyplot(fig3)
-    st.pyplot(fig4)
-    st.pyplot(fig5)
-    st.pyplot(fig6)
-    st.pyplot(fig7)
+    # st.pyplot(fig2)
+    # st.pyplot(fig3)
+    # st.pyplot(fig4)
+    # st.pyplot(fig5)
+    # st.pyplot(fig6)
+    # st.pyplot(fig7)
 
         
 if dpdwn == "Basic DataSet Visualizations":
@@ -243,7 +243,6 @@ if dpdwn == "Prediction":
     if st.button("Get Result"):
         if y_pred[0] == 0:
             st.subheader("Result: False")
-            st.success()
             st.balloons()
             st.write("The patient does not seem to have diabetes.")
         else:
